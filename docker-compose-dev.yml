@@ -1,0 +1,10 @@
+data:
+  build: data
+  volumes:
+    - ./datavolume:/var/upsource_home
+web:
+  build: web
+  ports:
+    - "8880:8080"
+  volumes_from:
+    - data

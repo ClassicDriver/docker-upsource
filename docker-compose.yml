@@ -1,0 +1,10 @@
+data:
+  image: classicdriver/upsource-data
+  volumes:
+    - /data/docker/volumes/jetbrains/upsource:/var/upsource_home
+web:
+  image: classicdriver/upsource:2.5.1
+  ports:
+    - '8880:8080'
+  volumes_from:
+    - data
