@@ -5,6 +5,6 @@ data:
 web:
   build: web
   ports:
-    - "8880:8080"
+    - "8080:8080"
   volumes_from:
     - data
