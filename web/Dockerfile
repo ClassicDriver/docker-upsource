@@ -43,17 +43,20 @@ RUN set -x \
     && rm -rf                            ${UPSOURCE_INSTALL_DIR}/internal/java \
     && chown -R ${RUN_USER}:${RUN_GROUP} ${UPSOURCE_INSTALL_DIR}
 
-COPY start-upsource.sh  ${UPSOURCE_INSTALL_DIR}/bin/start-upsource.sh
-RUN  chmod -R 755       ${UPSOURCE_INSTALL_DIR}/bin/start-upsource.sh
-
 USER ${RUN_USER}:${RUN_GROUP}
+
+# Configure Upsource
+WORKDIR $UPSOURCE_INSTALL_DIR
+RUN bin/upsource.sh configure                       \
+                                  --backups-dir ${UPSOURCE_HOME}/backups    \
+                                  --data-dir    ${UPSOURCE_HOME}/data       \
+                                  --logs-dir    ${UPSOURCE_HOME}/logs       \
+                                  --temp-dir    ${UPSOURCE_HOME}/temp
 
 VOLUME ["${UPSOURCE_HOME}"]
 
 # HTTP Port
 EXPOSE ${UPSOURCE_PORT}
 
-WORKDIR $UPSOURCE_INSTALL_DIR
-
 # Run
-CMD ["bin/start-upsource.sh"]
+CMD ["bin/upsource.sh", "run"]
